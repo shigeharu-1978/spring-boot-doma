@@ -1,13 +1,13 @@
 # Spring Boot Sample Application
 
-[![Build Status](https://travis-ci.org/miyabayt/spring-boot-doma2-sample.svg?branch=2018_springbootbook)](https://travis-ci.org/miyabayt/spring-boot-doma2-sample)
+[![Build Status](https://travis-ci.org/miyabayt/spring-boot-doma2-sample.svg?branch=2018_springbootbook)](https://travis-ci.org/miyabayt/spring-boot-doma)
 [![Documentation Status](https://readthedocs.org/projects/spring-boot-doma2-sample/badge/?version=latest)](http://spring-boot-doma2-sample.readthedocs.io/ja/latest/?badge=latest)
 
 ## ローカル環境
 
 ソースのダウンロード
 ```bash
-$ git clone https://github.com/miyabayt/spring-boot-doma2-sample.git
+$ git clone https://github.com/shigeharu-1978/spring-boot-doma.git
 ```
 
 ### 開発環境（IntelliJ）
@@ -47,7 +47,7 @@ MySQLなどのサーバーを立ち上げる。
 
 #### Windows10、MacOSXの場合
 ```bash
-$ cd /path/to/spring-boot-doma2-sample
+$ cd /path/to/spring-boot-doma
 $ ./gradlew composeUp
 ```
 
@@ -56,7 +56,7 @@ $ ./gradlew composeUp
   * `spring.datasource.url`の`127.0.0.1:3306`を`192.168.99.100:3306`に変更する。
 * `Docker CLI`でdocker-composeを実行する。
 ```bash
-$ cd /path/to/spring-boot-doma2-sample/docker
+$ cd /path/to/spring-boot-doma/docker
 $ docker-compose up
 ```
 
@@ -64,7 +64,7 @@ $ docker-compose up
 メール送信のテストのためFakeSMTPを立ち上げる。
 
 ```bash
-$ cd /path/to/spring-boot-doma2-sample
+$ cd /path/to/spring-boot-doma
 $ ./gradlew startFakeSmtpServer
 ```
 
@@ -73,21 +73,21 @@ $ ./gradlew startFakeSmtpServer
 #### 管理側
 ```bash
 $ # admin application
-$ cd /path/to/spring-boot-doma2-sample
+$ cd /path/to/spring-boot-doma
 $ ./gradlew :sample-web-admin:bootRun
 ```
 
 #### フロント側
 ```bash
 $ # front application
-$ cd /path/to/spring-boot-doma2-sample
+$ cd /path/to/spring-boot-doma
 $ ./gradlew :sample-web-front:bootRun
 ```
 
 #### バッチ
 ```bash
 $ # 担当者情報取り込みバッチを起動する
-$ cd /path/to/spring-boot-doma2-sample
+$ cd /path/to/spring-boot-doma
 $ ./gradlew :sample-batch:bootRun -Pargs="--job=importStaffJob"
 ```
 
@@ -112,7 +112,7 @@ mysql -h 192.168.99.100 -P 3306 -uroot -ppassw0rd sample
 
 ### コード自動生成（おまけ）
 ```bash
-$ cd /path/to/spring-boot-doma2-sample
+$ cd /path/to/spring-boot-doma
 $ ./gradlew codegen -PsubSystem=system -Pfunc=client -PfuncStr=取引先 [-Ptarget=dao|dto|repository|service|controller|html]
 ```
 
