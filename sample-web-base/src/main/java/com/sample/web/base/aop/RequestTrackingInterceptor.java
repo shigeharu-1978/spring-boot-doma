@@ -22,19 +22,19 @@ public class RequestTrackingInterceptor extends BaseHandlerInterceptor {
 
     private static final String HEADER_X_TRACK_ID = "X-Track-Id";
 
-    // 乱数生成器
+    // x乱数生成器
     private final XORShiftRandom random = new XORShiftRandom();
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-        // コントローラーの動作前
+        // xコントローラーの動作前
 
-        // 現在時刻を記録
+        // x現在時刻を記録
         val beforeNanoSec = System.nanoTime();
         startTimeHolder.set(beforeNanoSec);
 
-        // トラッキングID
+        // xトラッキングID
         val trackId = getTrackId(request);
         MDC.put(HEADER_X_TRACK_ID, trackId);
         response.setHeader(HEADER_X_TRACK_ID, trackId);
@@ -45,7 +45,7 @@ public class RequestTrackingInterceptor extends BaseHandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
             throws Exception {
-        // 処理完了後
+        // x処理完了後
 
         val beforeNanoSec = startTimeHolder.get();
 
@@ -57,7 +57,7 @@ public class RequestTrackingInterceptor extends BaseHandlerInterceptor {
         val elapsedMilliSec = NANOSECONDS.toMillis(elapsedNanoSec);
         log.info("path={}, method={}, Elapsed {}ms.", request.getRequestURI(), request.getMethod(), elapsedMilliSec);
 
-        // 破棄する
+        // x破棄する
         startTimeHolder.remove();
     }
 

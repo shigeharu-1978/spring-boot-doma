@@ -38,234 +38,270 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class StaffHtmlController extends AbstractHtmlController {
 
-    @Autowired
-    StaffFormValidator staffFormValidator;
+	@Autowired
+	StaffFormValidator staffFormValidator;
 
-    @Autowired
-    StaffService staffService;
+	@Autowired
+	StaffService staffService;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
-    @ModelAttribute("staffForm")
-    public StaffForm staffForm() {
-        return new StaffForm();
-    }
+	@ModelAttribute("staffForm")
+	public StaffForm staffForm() {
+		return new StaffForm();
+	}
 
-    @ModelAttribute("searchStaffForm")
-    public SearchStaffForm searchStaffForm() {
-        return new SearchStaffForm();
-    }
+	@ModelAttribute("searchStaffForm")
+	public SearchStaffForm searchStaffForm() {
+		return new SearchStaffForm();
+	}
 
-    @InitBinder("staffForm")
-    public void validatorBinder(WebDataBinder binder) {
-        binder.addValidators(staffFormValidator);
-    }
+	@InitBinder("staffForm")
+	public void validatorBinder(WebDataBinder binder) {
+		binder.addValidators(staffFormValidator);
+	}
 
-    @Override
-    public String getFunctionName() {
-        return "A_STAFF";
-    }
+	@Override
+	public String getFunctionName() {
+		return "A_STAFF";
+	}
 
-    /**
-     * 登録画面 初期表示
-     *
-     * @param form
-     * @param model
-     * @return
-     */
-    @GetMapping("/new")
-    public String newStaff(@ModelAttribute("staffForm") StaffForm form, Model model) {
-        if (!form.isNew()) {
-            // SessionAttributeに残っている場合は再生成する
-            model.addAttribute("staffForm", new StaffForm());
-        }
+	/**
+	 * 登録画面 初期表示
+	 *
+	 * @param form
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/new")
+	public String newStaff(@ModelAttribute("staffForm") StaffForm form, Model model) {
+		if (!form.isNew()) {
+			// SessionAttributeに残っている場合は再生成する
+			model.addAttribute("staffForm", new StaffForm());
+		}
 
-        return "modules/system/staffs/new";
-    }
+		return "modules/system/staffs/new";
+	}
 
-    /**
-     * 登録処理
-     *
-     * @param form
-     * @param br
-     * @param attributes
-     * @return
-     */
-    @PostMapping("/new")
-    public String newStaff(@Validated @ModelAttribute("staffForm") StaffForm form, BindingResult br,
-            RedirectAttributes attributes) {
-        // 入力チェックエラーがある場合は、元の画面にもどる
-        if (br.hasErrors()) {
-            setFlashAttributeErrors(attributes, br);
-            return "redirect:/system/staffs/new";
-        }
+	/**
+	 * 登録処理
+	 *
+	 * @param form
+	 * @param br
+	 * @param attributes
+	 * @return
+	 */
+	@PostMapping("/new")
+	public String newStaff(@Validated @ModelAttribute("staffForm") StaffForm form, BindingResult br,
+			RedirectAttributes attributes) {
+		/*
+		 * 入力チェックエラーがある場合は、元の画面にもどる
+		 */
+		if (br.hasErrors()) {
+			setFlashAttributeErrors(attributes, br);
+			return "redirect:/system/staffs/new";
+		}
 
-        // 入力値からDTOを作成する
-        val inputStaff = modelMapper.map(form, Staff.class);
-        val password = form.getPassword();
+		/*
+		 *  入力値からDTOを作成する
+		 */
+		val inputStaff = modelMapper.map(form, Staff.class);
+		val password = form.getPassword();
 
-        // パスワードをハッシュ化する
-        inputStaff.setPassword(passwordEncoder.encode(password));
+		/*
+		 *  パスワードをハッシュ化する
+		 */
+		inputStaff.setPassword(passwordEncoder.encode(password));
 
-        // 登録する
-        val createdStaff = staffService.create(inputStaff);
+		/*
+		 *  登録する
+		 */
+		val createdStaff = staffService.create(inputStaff);
 
-        return "redirect:/system/staffs/show/" + createdStaff.getId();
-    }
+		return "redirect:/system/staffs/show/" + createdStaff.getId();
+	}
 
-    /**
-     * 一覧画面 初期表示
-     *
-     * @param model
-     * @return
-     */
-    @GetMapping("/find")
-    public String findStaff(@ModelAttribute SearchStaffForm form, Model model) {
-        // 入力値を詰め替える
-        val criteria = modelMapper.map(form, StaffCriteria.class);
+	/**
+	 * 一覧画面 初期表示
+	 *
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/find")
+	public String findStaff(@ModelAttribute SearchStaffForm form, Model model) {
+		/*
+		 *  入力値を詰め替える
+		 */
+		val criteria = modelMapper.map(form, StaffCriteria.class);
 
-        // 10件区切りで取得する
-        val pages = staffService.findAll(criteria, form);
+		// 10件区切りで取得する
+		val pages = staffService.findAll(criteria, form);
 
-        // 画面に検索結果を渡す
-        model.addAttribute("pages", pages);
+		/*
+		 *  画面に検索結果を渡す
+		 */
+		model.addAttribute("pages", pages);
 
-        return "modules/system/staffs/find";
-    }
+		return "modules/system/staffs/find";
+	}
 
-    /**
-     * 検索結果
-     *
-     * @param form
-     * @param br
-     * @param attributes
-     * @return
-     */
-    @PostMapping("/find")
-    public String findStaff(@Validated @ModelAttribute("searchStaffForm") SearchStaffForm form, BindingResult br,
-            RedirectAttributes attributes) {
-        // 入力チェックエラーがある場合は、元の画面にもどる
-        if (br.hasErrors()) {
-            setFlashAttributeErrors(attributes, br);
-            return "redirect:/system/staffs/find";
-        }
+	/**
+	 * 検索結果
+	 *
+	 * @param form
+	 * @param br
+	 * @param attributes
+	 * @return
+	 */
+	@PostMapping("/find")
+	public String findStaff(@Validated @ModelAttribute("searchStaffForm") SearchStaffForm form, BindingResult br,
+			RedirectAttributes attributes) {
+		/*
+		 *  入力チェックエラーがある場合は、元の画面にもどる
+		 */
+		if (br.hasErrors()) {
+			setFlashAttributeErrors(attributes, br);
+			return "redirect:/system/staffs/find";
+		}
 
-        return "redirect:/system/staffs/find";
-    }
+		return "redirect:/system/staffs/find";
+	}
 
-    /**
-     * 詳細画面
-     *
-     * @param staffId
-     * @param model
-     * @return
-     */
-    @GetMapping("/show/{staffId}")
-    public String showStaff(@PathVariable Long staffId, Model model) {
-        // 1件取得する
-        val staff = staffService.findById(staffId);
-        model.addAttribute("staff", staff);
-        return "modules/system/staffs/show";
-    }
+	/**
+	 * 詳細画面
+	 *
+	 * @param staffId
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/show/{staffId}")
+	public String showStaff(@PathVariable Long staffId, Model model) {
+		// 1件取得する
+		val staff = staffService.findById(staffId);
+		model.addAttribute("staff", staff);
+		return "modules/system/staffs/show";
+	}
 
-    /**
-     * 編集画面 初期表示
-     *
-     * @param staffId
-     * @param form
-     * @param model
-     * @return
-     */
-    @GetMapping("/edit/{staffId}")
-    public String editStaff(@PathVariable Long staffId, @ModelAttribute("staffForm") StaffForm form, Model model) {
-        // セッションから取得できる場合は、読み込み直さない
-        if (!hasErrors(model)) {
-            // 1件取得する
-            val staff = staffService.findById(staffId);
+	/**
+	 * 編集画面 初期表示
+	 *
+	 * @param staffId
+	 * @param form
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/edit/{staffId}")
+	public String editStaff(@PathVariable Long staffId, @ModelAttribute("staffForm") StaffForm form, Model model) {
+		/*
+		 *  セッションから取得できる場合は、読み込み直さない
+		 */
+		if (!hasErrors(model)) {
+			// 1件取得する
+			val staff = staffService.findById(staffId);
 
-            // 取得したDtoをFromに詰め替える
-            modelMapper.map(staff, form);
-        }
+			// 取得したDtoをFromに詰め替える
+			modelMapper.map(staff, form);
+		}
 
-        return "modules/system/staffs/new";
-    }
+		return "modules/system/staffs/new";
+	}
 
-    /**
-     * 編集画面 更新処理
-     *
-     * @param form
-     * @param br
-     * @param staffId
-     * @param sessionStatus
-     * @param attributes
-     * @return
-     */
-    @PostMapping("/edit/{staffId}")
-    public String editStaff(@Validated @ModelAttribute("staffForm") StaffForm form, BindingResult br,
-            @PathVariable Long staffId, SessionStatus sessionStatus, RedirectAttributes attributes) {
-        // 入力チェックエラーがある場合は、元の画面にもどる
-        if (br.hasErrors()) {
-            setFlashAttributeErrors(attributes, br);
-            return "redirect:/system/staffs/edit/" + staffId;
-        }
+	/**
+	 * 編集画面 更新処理
+	 *
+	 * @param form
+	 * @param br
+	 * @param staffId
+	 * @param sessionStatus
+	 * @param attributes
+	 * @return
+	 */
+	@PostMapping("/edit/{staffId}")
+	public String editStaff(@Validated @ModelAttribute("staffForm") StaffForm form, BindingResult br,
+			@PathVariable Long staffId, SessionStatus sessionStatus, RedirectAttributes attributes) {
+		/*
+		 *  入力チェックエラーがある場合は、元の画面にもどる
+		 */
+		if (br.hasErrors()) {
+			setFlashAttributeErrors(attributes, br);
+			return "redirect:/system/staffs/edit/" + staffId;
+		}
 
-        // 更新対象を取得する
-        val staff = staffService.findById(staffId);
+		/*
+		 *  更新対象を取得する
+		 */
+		val staff = staffService.findById(staffId);
 
-        // 入力値を詰め替える
-        modelMapper.map(form, staff);
-        val password = staff.getPassword();
+		/*
+		 *  入力値を詰め替える
+		 */
+		modelMapper.map(form, staff);
+		val password = staff.getPassword();
 
-        if (StringUtils.isNotEmpty(password)) {
-            // パスワードをハッシュ化する
-            staff.setPassword(passwordEncoder.encode(password));
-        }
+		if (StringUtils.isNotEmpty(password)) {
+			/*
+			 *  パスワードをハッシュ化する
+			 */
+			staff.setPassword(passwordEncoder.encode(password));
+		}
 
-        // 更新する
-        val updatedStaff = staffService.update(staff);
+		/*
+		 *  更新する
+		 */
+		val updatedStaff = staffService.update(staff);
 
-        // セッションのstaffFormをクリアする
-        sessionStatus.setComplete();
+		/*
+		 *  セッションのstaffFormをクリアする
+		 */
+		sessionStatus.setComplete();
 
-        return "redirect:/system/staffs/show/" + updatedStaff.getId();
-    }
+		return "redirect:/system/staffs/show/" + updatedStaff.getId();
+	}
 
-    /**
-     * 削除処理
-     *
-     * @param staffId
-     * @param attributes
-     * @return
-     */
-    @PostMapping("/remove/{staffId}")
-    public String removeStaff(@PathVariable Long staffId, RedirectAttributes attributes) {
-        // 論理削除する
-        staffService.delete(staffId);
+	/**
+	 * 削除処理
+	 *
+	 * @param staffId
+	 * @param attributes
+	 * @return
+	 */
+	@PostMapping("/remove/{staffId}")
+	public String removeStaff(@PathVariable Long staffId, RedirectAttributes attributes) {
+		/*
+		 *  論理削除する
+		 */
+		staffService.delete(staffId);
 
-        // 削除成功メッセージ
-        attributes.addFlashAttribute(GLOBAL_MESSAGE, getMessage(MESSAGE_DELETED));
+		/*
+		 *  削除成功メッセージ
+		 */
+		attributes.addFlashAttribute(GLOBAL_MESSAGE, getMessage(MESSAGE_DELETED));
 
-        return "redirect:/system/staffs/find";
-    }
+		return "redirect:/system/staffs/find";
+	}
 
-    /**
-     * CSVダウンロード
-     *
-     * @param filename
-     * @return
-     */
-    @GetMapping("/download/{filename:.+\\.csv}")
-    public ModelAndView downloadCsv(@PathVariable String filename) {
-        // 全件取得する
-        val staffs = staffService.findAll(new StaffCriteria(), Pageable.NO_LIMIT);
+	/**
+	 * CSVダウンロード
+	 *
+	 * @param filename
+	 * @return
+	 */
+	@GetMapping("/download/{filename:.+\\.csv}")
+	public ModelAndView downloadCsv(@PathVariable String filename) {
+		/*
+		 *  全件取得する
+		 */
+		val staffs = staffService.findAll(new StaffCriteria(), Pageable.NO_LIMIT);
 
-        // 詰め替える
-        List<StaffCsv> csvList = modelMapper.map(staffs.getData(), toListType(StaffCsv.class));
+		/*
+		 *  詰め替える
+		 */
+		List<StaffCsv> csvList = modelMapper.map(staffs.getData(), toListType(StaffCsv.class));
 
-        // CSVスキーマクラス、データ、ダウンロード時のファイル名を指定する
-        val view = new CsvView(StaffCsv.class, csvList, filename);
+		// CSVスキーマクラス、データ、ダウンロード時のファイル名を指定する
+		val view = new CsvView(StaffCsv.class, csvList, filename);
 
-        return new ModelAndView(view);
-    }
+		return new ModelAndView(view);
+	}
 }

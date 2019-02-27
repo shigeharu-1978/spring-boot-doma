@@ -19,7 +19,7 @@ public class RequestDataValueProcessorAutoConfiguration {
     // requestDataValueProcessorという名称でなければならない
     @Bean
     public RequestDataValueProcessor requestDataValueProcessor() {
-        // 二重送信防止のトークンを自動で埋め込む
+        // x二重送信防止のトークンを自動で埋め込む
         return new DoubleSubmitCheckingRequestDataValueProcessor();
     }
 }

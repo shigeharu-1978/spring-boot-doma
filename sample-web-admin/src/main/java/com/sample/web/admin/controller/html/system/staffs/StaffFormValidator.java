@@ -13,13 +13,15 @@ import com.sample.domain.validator.AbstractValidator;
 @Component
 public class StaffFormValidator extends AbstractValidator<StaffForm> {
 
-    @Override
-    protected void doValidate(StaffForm form, Errors errors) {
+	@Override
+	protected void doValidate(StaffForm form, Errors errors) {
 
-        // 確認用パスワードと突き合わせる
-        if (isNotEquals(form.getPassword(), form.getPasswordConfirm())) {
-            errors.rejectValue("password", "staffs.unmatchPassword");
-            errors.rejectValue("passwordConfirm", "staffs.unmatchPassword");
-        }
-    }
+		/*
+		 * 確認用パスワードと突き合わせる
+		 */
+		if (isNotEquals(form.getPassword(), form.getPasswordConfirm())) {
+			errors.rejectValue("password", "staffs.unmatchPassword");
+			errors.rejectValue("passwordConfirm", "staffs.unmatchPassword");
+		}
+	}
 }
