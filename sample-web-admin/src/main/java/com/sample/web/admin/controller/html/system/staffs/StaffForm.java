@@ -3,7 +3,7 @@ package com.sample.web.admin.controller.html.system.staffs;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-
+import javax.validation.constraints.Size;
 import com.sample.web.base.controller.html.BaseForm;
 
 import lombok.Getter;
@@ -30,9 +30,11 @@ public class StaffForm extends BaseForm {
 	String lastName;
 
 	@NotEmpty
+	@Size(min = 5,max=8)
 	String password;
 
 	@NotEmpty
+	@Size(min = 5,max=8)
 	String passwordConfirm;
 
 	/*

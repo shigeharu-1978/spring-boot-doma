@@ -50,10 +50,10 @@
                     <table id="staffs" class="table table-hover" th:if="${pages} != null and ${pages.data} != null">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>氏名</th>
-                                <th>メールアドレス</th>
-                                <th>電話番号</th>
+                                <th th:text="#{userId}"></th>
+                                <th th:text="#{name}"></th>
+                                <th th:text="#{email}"></th>
+                                <th th:text="#{tel}"></th>
                             </tr>
                         </thead>
                         <tbody>

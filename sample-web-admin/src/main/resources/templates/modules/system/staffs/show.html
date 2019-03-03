@@ -22,19 +22,19 @@
                 <div class="box-header with-border">
                     <table class="table table-hover" th:object="${staff}">
                         <tr>
-                            <th>ID</th>
+                            <th th:text="#{userId}"></th>
                             <td th:text="*{id}"></td>
                         </tr>
                         <tr>
-                            <th>氏名</th>
+                            <th th:text="#{name}"></th>
                             <td><b th:text="*{firstName + ' ' + lastName}"></b></td>
                         </tr>
                         <tr>
-                            <th>メールアドレス</th>
+                            <th th:text="#{email}"></th>
                             <td th:text="*{email}"></td>
                         </tr>
                         <tr>
-                            <th>電話番号</th>
+                            <th th:text="#{tel}"></th>
                             <td th:text="*{tel}"></td>
                         </tr>
                     </table>

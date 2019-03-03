@@ -23,12 +23,12 @@
                       th:with="action=${staffForm.isNew()} ? @{/system/staffs/new} : @{/system/staffs/edit/{id}(id=*{id})}"
                       class="form-horizontal" enctype="multipart/form-data" method="post">
                     <div class="box-body">
-                        <input th:replace="~{fragments/inputField :: input ('text', '名前', 'firstName')}" />
-                        <input th:replace="~{fragments/inputField :: input ('text', '苗字', 'lastName')}" />
-                        <input th:replace="~{fragments/inputField :: input ('password', 'パスワード', 'password')}" />
-                        <input th:replace="~{fragments/inputField :: input ('password', '確認パスワード', 'passwordConfirm')}" />
-                        <input th:replace="~{fragments/inputField :: input ('text', 'メールアドレス', 'email')}" />
-                        <input th:replace="~{fragments/inputField :: input ('text', '電話番号', 'tel')}" />
+                        <input th:replace="~{fragments/inputField :: input ('text', 'firstName', 'firstName')}" />
+                        <input th:replace="~{fragments/inputField :: input ('text', 'lastName', 'lastName')}" />
+                        <input th:replace="~{fragments/inputField :: input ('password', 'password', 'password')}" />
+                        <input th:replace="~{fragments/inputField :: input ('password', 'passwordConfirm', 'passwordConfirm')}" />
+                        <input th:replace="~{fragments/inputField :: input ('text', 'email', 'email')}" />
+                        <input th:replace="~{fragments/inputField :: input ('text', 'tel', 'tel')}" />
                     </div>
                     <div class="box-footer">
                         <button class="btn btn-default bg-purple" type="submit"
