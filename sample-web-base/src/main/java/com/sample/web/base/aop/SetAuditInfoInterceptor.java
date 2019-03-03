@@ -26,15 +26,15 @@ public class SetAuditInfoInterceptor extends BaseHandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-        // コントローラーの動作前
+        // xコントローラーの動作前
         val now = LocalDateTime.now();
 
-        // 未ログインの場合は、ゲスト扱いにする
+        // x未ログインの場合は、ゲスト扱いにする
         AuditInfoHolder.set("GUEST", now);
 
-        // ログインユーザーが存在する場合
+        // xログインユーザーが存在する場合
         getLoginUser().ifPresent(loginUser -> {
-            // 監査情報を設定する
+            // x監査情報を設定する
             AuditInfoHolder.set(loginUser.getUsername(), now);
         });
 
@@ -44,9 +44,9 @@ public class SetAuditInfoInterceptor extends BaseHandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
             ModelAndView modelAndView) throws Exception {
-        // コントローラーの動作後
+        // xコントローラーの動作後
 
-        // 監査情報をクリアする
+        // x監査情報をクリアする
         AuditInfoHolder.clear();
     }
 

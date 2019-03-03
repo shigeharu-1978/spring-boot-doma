@@ -30,23 +30,23 @@ public class Staff extends DomaDtoImpl {
 
     String password;
 
-    // 名前
+    // x名前
     String firstName;
 
-    // 苗字
+    // x苗字
     String lastName;
 
-    // メールアドレス
+    // xメールアドレス
     @Email
     String email;
 
-    // 電話番号
+    // x電話番号
     @Digits(fraction = 0, integer = 10)
     String tel;
 
-    // パスワードリセットトークン
+    // xパスワードリセットトークン
     String passwordResetToken;
 
-    // トークン失効日
+    // xトークン失効日
     LocalDateTime tokenExpiresAt;
 }

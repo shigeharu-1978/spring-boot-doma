@@ -23,12 +23,48 @@
                       th:with="action=${staffForm.isNew()} ? @{/system/staffs/new} : @{/system/staffs/edit/{id}(id=*{id})}"
                       class="form-horizontal" enctype="multipart/form-data" method="post">
                     <div class="box-body">
-                        <input th:replace="~{fragments/inputField :: input ('text', 'firstName', 'firstName')}" />
-                        <input th:replace="~{fragments/inputField :: input ('text', 'lastName', 'lastName')}" />
-                        <input th:replace="~{fragments/inputField :: input ('password', 'password', 'password')}" />
-                        <input th:replace="~{fragments/inputField :: input ('password', 'passwordConfirm', 'passwordConfirm')}" />
-                        <input th:replace="~{fragments/inputField :: input ('text', 'email', 'email')}" />
-                        <input th:replace="~{fragments/inputField :: input ('text', 'tel', 'tel')}" />
+                        <div th:with="valid=${!#fields.hasErrors('firstName')}" th:class="${'form-group' + (valid ? '' : ' has-error')}" class="form-group">
+                            <label class="col-sm-2 control-label" th:text="#{firstName}">Label</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" th:type="${'text'}" th:field="*{firstName}" />
+                                <span th:if="${!valid}" class="help-block" th:errors="*{firstName}">Error</span>
+                            </div>
+                        </div>
+                        <div th:with="valid=${!#fields.hasErrors('lastName')}" th:class="${'form-group' + (valid ? '' : ' has-error')}" class="form-group">
+                            <label class="col-sm-2 control-label" th:text="#{lastName}">Label</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" th:type="${'text'}" th:field="*{lastName}" />
+                                <span th:if="${!valid}" class="help-block" th:errors="*{lastName}">Error</span>
+                            </div>
+                        </div>
+                        <div th:with="valid=${!#fields.hasErrors('password')}" th:class="${'form-group' + (valid ? '' : ' has-error')}" class="form-group">
+                            <label class="col-sm-2 control-label" th:text="#{password}">Label</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" th:type="${'password'}" th:field="*{password}" />
+                                <span th:if="${!valid}" class="help-block" th:errors="*{password}">Error</span>
+                            </div>
+                        </div>
+                        <div th:with="valid=${!#fields.hasErrors('passwordConfirm')}" th:class="${'form-group' + (valid ? '' : ' has-error')}" class="form-group">
+                            <label class="col-sm-2 control-label" th:text="#{passwordConfirm}">Label</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" th:type="${'password'}" th:field="*{passwordConfirm}" />
+                                <span th:if="${!valid}" class="help-block" th:errors="*{passwordConfirm}">Error</span>
+                            </div>
+                        </div>
+                        <div th:with="valid=${!#fields.hasErrors('email')}" th:class="${'form-group' + (valid ? '' : ' has-error')}" class="form-group">
+                            <label class="col-sm-2 control-label" th:text="#{email}">Label</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" th:type="${'text'}" th:field="*{email}" />
+                                <span th:if="${!valid}" class="help-block" th:errors="*{email}">Error</span>
+                            </div>
+                        </div>
+                        <div th:with="valid=${!#fields.hasErrors('tel')}" th:class="${'form-group' + (valid ? '' : ' has-error')}" class="form-group">
+                            <label class="col-sm-2 control-label" th:text="#{tel}">Label</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" th:type="${'text'}" th:field="*{tel}" />
+                                <span th:if="${!valid}" class="help-block" th:errors="*{tel}">Error</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="box-footer">
                         <button class="btn btn-default bg-purple" type="submit"

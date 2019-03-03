@@ -23,7 +23,7 @@ public abstract class AbstractValidator<T> implements Validator {
             boolean hasErrors = errors.hasErrors();
 
             if (!hasErrors || passThruBeanValidation(hasErrors)) {
-                // 各機能で実装しているバリデーションを実行する
+                // x各機能で実装しているバリデーションを実行する
                 doValidate((T) target, errors);
             }
         } catch (RuntimeException e) {

@@ -27,7 +27,7 @@ public class DefaultEntityListener<ENTITY> implements EntityListener<ENTITY> {
 
     @Override
     public void preInsert(ENTITY entity, PreInsertContext<ENTITY> context) {
-        // 二重送信防止チェック
+        // x二重送信防止チェック
         val expected = DoubleSubmitCheckTokenHolder.getExpectedToken();
         val actual = DoubleSubmitCheckTokenHolder.getActualToken();
 
@@ -74,7 +74,7 @@ public class DefaultEntityListener<ENTITY> implements EntityListener<ENTITY> {
             val name = domaDto.getClass().getName();
             val ids = getIds(domaDto);
 
-            // 物理削除した場合はログ出力する
+            // x物理削除した場合はログ出力する
             log.info("データを物理削除しました。entity={}, id={}, deletedBy={}, deletedAt={}", name, ids, deletedBy, deletedAt);
         }
     }

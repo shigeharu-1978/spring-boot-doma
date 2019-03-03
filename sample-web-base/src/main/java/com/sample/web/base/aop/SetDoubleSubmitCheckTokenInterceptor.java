@@ -23,7 +23,7 @@ public class SetDoubleSubmitCheckTokenInterceptor extends BaseHandlerInterceptor
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-        // コントローラーの動作前
+        // xコントローラーの動作前
         val expected = DoubleSubmitCheckToken.getExpectedToken(request);
         val actual = DoubleSubmitCheckToken.getActualToken(request);
         DoubleSubmitCheckTokenHolder.set(expected, actual);

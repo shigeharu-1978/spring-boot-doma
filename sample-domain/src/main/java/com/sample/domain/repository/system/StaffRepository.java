@@ -40,7 +40,7 @@ public class StaffRepository extends BaseRepository {
      * @return
      */
     public Page<Staff> findAll(StaffCriteria criteria, Pageable pageable) {
-        // ページングを指定する
+        // xページングを指定する
         val options = createSelectOptions(pageable).count();
         val data = staffDao.selectAll(criteria, options, toList());
         return pageFactory.create(data, pageable, options.getCount());
@@ -72,10 +72,10 @@ public class StaffRepository extends BaseRepository {
      * @return
      */
     public Staff create(final Staff inputStaff) {
-        // 1件登録
+        // x1件登録
         staffDao.insert(inputStaff);
 
-        // 役割権限紐付けを登録する
+        // x役割権限紐付けを登録する
         val staffRole = new StaffRole();
         staffRole.setStaffId(inputStaff.getId());
         staffRole.setRoleKey("admin");
@@ -91,7 +91,7 @@ public class StaffRepository extends BaseRepository {
      * @return
      */
     public Staff update(final Staff inputStaff) {
-        // 1件更新
+        // x1件更新
         int updated = staffDao.update(inputStaff);
 
         if (updated < 1) {

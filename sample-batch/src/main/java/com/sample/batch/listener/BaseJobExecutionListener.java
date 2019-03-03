@@ -35,30 +35,30 @@ public abstract class BaseJobExecutionListener extends JobExecutionListenerSuppo
         log.info("* 開始時刻 : {}", DateUtils.format(startTime, YYYY_MM_DD_HHmmss));
         log.info("*********************************************");
 
-        // 監査情報を設定する
+        // x監査情報を設定する
         AuditInfoHolder.set(batchId, startDateTime);
 
-        // コンテキストを設定する
+        // xコンテキストを設定する
         val context = BatchContextHolder.getContext();
         context.set(batchId, batchName, startDateTime);
 
-        // 機能別の初期化処理を呼び出す
+        // x機能別の初期化処理を呼び出す
         before(jobExecution, context);
     }
 
     @Override
     public void afterJob(JobExecution jobExecution) {
-        // コンテキストを取り出す
+        // xコンテキストを取り出す
         val context = BatchContextHolder.getContext();
 
-        // 機能別の終了処理を呼び出す
+        // x機能別の終了処理を呼び出す
         try {
             after(jobExecution, context);
         } catch (Throwable t) {
             log.error("exception occurred. ", t);
             throw new IllegalStateException(t);
         } finally {
-            // 共通の終了処理
+            // x共通の終了処理
             try {
                 val batchId = context.getBatchId();
                 val batchName = context.getBatchName();
@@ -89,10 +89,10 @@ public abstract class BaseJobExecutionListener extends JobExecutionListenerSuppo
             } finally {
                 MDC.remove(MDC_BATCH_ID);
 
-                // 監査情報をクリアする
+                // x監査情報をクリアする
                 AuditInfoHolder.clear();
 
-                // ジョブコンテキストをクリアする
+                // xジョブコンテキストをクリアする
                 context.clear();
             }
         }

@@ -15,24 +15,24 @@ public class StaffRole extends DomaDtoImpl {
 
     private static final long serialVersionUID = 1780669742437422350L;
 
-    // 担当者役割ID
+    // x担当者役割ID
     @Id
     @Column(name = "staff_role_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    // 担当者ID
+    // x担当者ID
     Long staffId;
 
-    // 役割キー
+    // x役割キー
     String roleKey;
 
-    // 役割名
+    // x役割名
     String roleName;
 
-    // 権限キー
+    // x権限キー
     String permissionKey;
 
-    // 権限名
+    // x権限名
     String permissionName;
 }

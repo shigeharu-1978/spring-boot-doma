@@ -20,42 +20,42 @@ import lombok.Setter;
 @Getter
 public abstract class DomaDtoImpl implements DomaDto, Serializable {
 
-    // 作成者
+    // x作成者
     @JsonIgnore
     String createdBy;
 
-    // 作成日時
+    // x作成日時
     @JsonIgnore
     LocalDateTime createdAt;
 
-    // 更新者
+    // x更新者
     @JsonIgnore
     String updatedBy;
 
-    // 更新日時
+    // x更新日時
     @JsonIgnore
     LocalDateTime updatedAt;
 
-    // 削除者
+    // x削除者
     @JsonIgnore
     String deletedBy;
 
-    // 削除日時
+    // x削除日時
     @JsonIgnore
     LocalDateTime deletedAt;
 
-    // 楽観的排他制御で使用する改定番号
+    // x楽観的排他制御で使用する改定番号
     @Version
     @Column(name = "version")
     @JsonIgnore
     Integer version;
 
-    // 作成・更新者に使用する値
+    // x作成・更新者に使用する値
     @Transient
     @JsonIgnore
     String auditUser;
 
-    // 作成・更新日に使用する値
+    // x作成・更新日に使用する値
     @Transient
     @JsonIgnore
     LocalDateTime auditDateTime;

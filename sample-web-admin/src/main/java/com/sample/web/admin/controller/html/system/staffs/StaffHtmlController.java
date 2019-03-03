@@ -200,7 +200,7 @@ public class StaffHtmlController extends AbstractHtmlController {
 			// 1件取得する
 			val staff = staffService.findById(staffId);
 
-			// 取得したDtoをFromに詰め替える
+			// x取得したDtoをFromに詰め替える
 			modelMapper.map(staff, form);
 		}
 
