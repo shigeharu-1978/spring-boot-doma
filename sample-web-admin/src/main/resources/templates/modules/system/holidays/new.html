@@ -23,7 +23,7 @@
                       th:with="action=${holidayForm.isNew()} ? @{/system/holidays/new} : @{/system/holidays/edit/{id}(id=*{id})}"
                       class="form-horizontal" enctype="multipart/form-data" method="post">
                     <div class="box-body">
-                        <input th:replace="~{fragments/inputField :: input ('text', '祝日名', 'holidayName')}" />
+                        <input th:replace="~{fragments/inputField :: input ('text', 'holidayName', 'holidayName')}" />
                         <input th:replace="~{fragments/dateField :: input ('text', '日付', 'holidayDate', *{holidayDate}, 'yyyy/MM/dd')}" />
                     </div>
                     <div class="box-footer">

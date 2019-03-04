@@ -30,7 +30,7 @@
                                        th:value="*{templateKey}" th:readonly="${not mailTemplateForm.isNew()}" />
                             </div>
                         </div>
-                        <input th:replace="~{fragments/inputField :: input ('text', 'タイトル', 'subject')}" />
+                        <input th:replace="~{fragments/inputField :: input ('text', 'subject', 'subject')}" />
                         <input th:replace="~{fragments/textarea :: textarea ('本文', 'templateBody', 12)}" />
                     </div>
                     <div class="box-footer">

@@ -58,13 +58,13 @@ public class PdfView extends AbstractView {
             HttpServletResponse response) throws Exception {
 
         // IEの場合はContent-Lengthヘッダが指定されていないとダウンロードが失敗するので、
-        // サイズを取得するための一時的なバイト配列ストリームにコンテンツを書き出すようにする
+        // xサイズを取得するための一時的なバイト配列ストリームにコンテンツを書き出すようにする
         val baos = createTemporaryOutputStream();
 
-        // 帳票レイアウト
+        // x帳票レイアウト
         val report = loadReport();
 
-        // データの設定
+        // xデータの設定
         val dataSource = new JRBeanCollectionDataSource(this.data);
         val print = JasperFillManager.fillReport(report, model, dataSource);
 
@@ -73,7 +73,7 @@ public class PdfView extends AbstractView {
         exporter.setExporterOutput(new SimpleOutputStreamExporterOutput(baos));
         exporter.exportReport();
 
-        // ファイル名に日本語を含めても文字化けしないようにUTF-8にエンコードする
+        // xファイル名に日本語を含めても文字化けしないようにUTF-8にエンコードする
         val encodedFilename = EncodeUtils.encodeUtf8(filename);
         val contentDisposition = String.format("attachment; filename*=UTF-8''%s", encodedFilename);
         response.setHeader(CONTENT_DISPOSITION, contentDisposition);

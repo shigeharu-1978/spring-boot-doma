@@ -29,14 +29,14 @@
                                 <input type="text" class="form-control" th:value="*{codeKey}" th:readonly="${not codeForm.isNew()}" />
                             </div>
                         </div>
-                        <input th:replace="~{fragments/inputField :: input ('text', 'コード値', 'codeValue')}" />
+                        <input th:replace="~{fragments/inputField :: input ('text', 'codeValue', 'codeValue')}" />
                         <div class="form-group">
                             <label class="col-sm-2 control-label">コードエイリアス</label>
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" th:value="*{codeAlias}" th:readonly="${not codeForm.isNew()}" />
                             </div>
                         </div>
-                        <input th:replace="~{fragments/inputField :: input ('text', '表示順', 'displayOrder')}" />
+                        <input th:replace="~{fragments/inputField :: input ('text', 'displayOrder', 'displayOrder')}" />
                         <div class="form-group">
                             <label class="col-sm-2 control-label">無効フラグ</label>
                             <div class="col-sm-10">
