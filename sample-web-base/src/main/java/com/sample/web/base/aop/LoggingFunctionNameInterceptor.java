@@ -22,7 +22,7 @@ public class LoggingFunctionNameInterceptor extends BaseHandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-        // コントローラーの動作前
+        // xコントローラーの動作前
 
         val fna = getBean(handler, FunctionNameAware.class);
         if (fna != null) {
