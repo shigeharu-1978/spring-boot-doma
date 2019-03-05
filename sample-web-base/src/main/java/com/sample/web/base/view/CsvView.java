@@ -99,5 +99,6 @@ public class CsvView extends AbstractView {
         try (Writer writer = new OutputStreamWriter(outputStream, "Windows-31J")) {
             csvMapper.writer(schema).writeValue(writer, data);
         }
+        writeToResponse(response, outputStream);
     }
 }

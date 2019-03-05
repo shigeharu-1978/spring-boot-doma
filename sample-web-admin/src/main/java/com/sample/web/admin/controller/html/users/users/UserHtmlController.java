@@ -99,20 +99,20 @@ public class UserHtmlController extends AbstractHtmlController {
     public String newUser(@Validated @ModelAttribute("userForm") UserForm form, BindingResult br,
             RedirectAttributes attributes) {
 
-        // 入力チェックエラーがある場合は、元の画面にもどる
+        // x入力チェックエラーがある場合は、元の画面にもどる
         if (br.hasErrors()) {
             setFlashAttributeErrors(attributes, br);
             return "redirect:/users/users/new";
         }
 
-        // 入力値からDTOを作成する
+        // x入力値からDTOを作成する
         val inputUser = modelMapper.map(form, User.class);
         val password = form.getPassword();
 
-        // パスワードをハッシュ化する
+        // xパスワードをハッシュ化する
         inputUser.setPassword(passwordEncoder.encode(password));
 
-        // 登録する
+        // x登録する
         val createdUser = userService.create(inputUser);
 
         return "redirect:/users/users/show/" + createdUser.getId();
@@ -126,13 +126,13 @@ public class UserHtmlController extends AbstractHtmlController {
      */
     @GetMapping("/find")
     public String findUser(@ModelAttribute SearchUserForm form, Model model) {
-        // 入力値を詰め替える
+        // x入力値を詰め替える
         val criteria = modelMapper.map(form, UserCriteria.class);
 
-        // 10件区切りで取得する
+        // x10件区切りで取得する
         val pages = userService.findAll(criteria, form);
 
-        // 画面に検索結果を渡す
+        // x画面に検索結果を渡す
         model.addAttribute("pages", pages);
 
         return "modules/users/users/find";
@@ -150,7 +150,7 @@ public class UserHtmlController extends AbstractHtmlController {
     public String findUser(@Validated @ModelAttribute("searchUserForm") SearchUserForm form, BindingResult br,
             RedirectAttributes attributes) {
 
-        // 入力チェックエラーがある場合は、元の画面にもどる
+        // x入力チェックエラーがある場合は、元の画面にもどる
         if (br.hasErrors()) {
             setFlashAttributeErrors(attributes, br);
             return "redirect:/users/users/find";
@@ -168,7 +168,7 @@ public class UserHtmlController extends AbstractHtmlController {
      */
     @GetMapping("/show/{userId}")
     public String showUser(@PathVariable Long userId, Model model) {
-        // 1件取得する
+        // x1件取得する
         val user = userService.findById(userId);
         model.addAttribute("user", user);
 
@@ -197,12 +197,18 @@ public class UserHtmlController extends AbstractHtmlController {
     @GetMapping("/edit/{userId}")
     public String editUser(@PathVariable Long userId, @ModelAttribute("userForm") UserForm form, Model model) {
 
-        // セッションから取得できる場合は、読み込み直さない
+        /*
+         *  セッションから取得できる場合は、読み込み直さない
+         */
         if (!hasErrors(model)) {
-            // 1件取得する
+            /*
+             *  x1件取得する
+             */
             val user = userService.findById(userId);
 
-            // 取得したDtoをFromに詰め替える
+            /*
+             *  取得したDtoをFromに詰め替える
+             */
             modelMapper.map(user, form);
         }
 
@@ -223,16 +229,22 @@ public class UserHtmlController extends AbstractHtmlController {
     public String editUser(@Validated @ModelAttribute("userForm") UserForm form, BindingResult br,
             @PathVariable Long userId, SessionStatus sessionStatus, RedirectAttributes attributes) {
 
-        // 入力チェックエラーがある場合は、元の画面にもどる
+        /*
+         *  入力チェックエラーがある場合は、元の画面にもどる
+         */
         if (br.hasErrors()) {
             setFlashAttributeErrors(attributes, br);
             return "redirect:/users/users/edit/" + userId;
         }
 
-        // 更新対象を取得する
+        /*
+         *  更新対象を取得する
+         */
         val user = userService.findById(userId);
 
-        // 入力値を詰め替える
+        /*
+         *  入力値を詰め替える
+         */
         modelMapper.map(form, user);
 
         val image = form.getUserImage();
@@ -242,10 +254,14 @@ public class UserHtmlController extends AbstractHtmlController {
             user.setUploadFile(uploadFile);
         }
 
-        // 更新する
+        /*
+         *  更新する
+         */
         val updatedUser = userService.update(user);
 
-        // セッションのuserFormをクリアする
+        /*
+         *  セッションのuserFormをクリアする
+         */
         sessionStatus.setComplete();
 
         return "redirect:/users/users/show/" + updatedUser.getId();
@@ -260,10 +276,10 @@ public class UserHtmlController extends AbstractHtmlController {
      */
     @PostMapping("/remove/{userId}")
     public String removeUser(@PathVariable Long userId, RedirectAttributes attributes) {
-        // 論理削除する
+        // x論理削除する
         userService.delete(userId);
 
-        // 削除成功メッセージ
+        // x削除成功メッセージ
         attributes.addFlashAttribute(GLOBAL_MESSAGE, getMessage(MESSAGE_DELETED));
 
         return "redirect:/users/users/find";
@@ -277,10 +293,10 @@ public class UserHtmlController extends AbstractHtmlController {
      */
     @GetMapping("/download/{filename:.+\\.csv}")
     public ModelAndView downloadCsv(@PathVariable String filename) {
-        // 全件取得する
+        // x全件取得する
         val users = userService.findAll(new UserCriteria(), Pageable.NO_LIMIT);
 
-        // 詰め替える
+        // x詰め替える
         List<UserCsv> csvList = modelMapper.map(users.getData(), toListType(UserCsv.class));
 
         // CSVスキーマクラス、データ、ダウンロード時のファイル名を指定する
@@ -297,7 +313,7 @@ public class UserHtmlController extends AbstractHtmlController {
      */
     @GetMapping(path = "/download/{filename:.+\\.xlsx}")
     public ModelAndView downloadExcel(@PathVariable String filename) {
-        // 全件取得する
+        // x全件取得する
         val users = userService.findAll(new UserCriteria(), Pageable.NO_LIMIT);
 
         // Excelプック生成コールバック、データ、ダウンロード時のファイル名を指定する
@@ -314,10 +330,10 @@ public class UserHtmlController extends AbstractHtmlController {
      */
     @GetMapping(path = "/download/{filename:.+\\.pdf}")
     public ModelAndView downloadPdf(@PathVariable String filename) {
-        // 全件取得する
+        // x全件取得する
         val users = userService.findAll(new UserCriteria(), Pageable.NO_LIMIT);
 
-        // 帳票レイアウト、データ、ダウンロード時のファイル名を指定する
+        // x帳票レイアウト、データ、ダウンロード時のファイル名を指定する
         val view = new PdfView("reports/users.jrxml", users.getData(), filename);
 
         return new ModelAndView(view);

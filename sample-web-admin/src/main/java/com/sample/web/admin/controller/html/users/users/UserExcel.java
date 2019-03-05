@@ -20,17 +20,17 @@ public class UserExcel implements ExcelView.Callback {
     @Override
     public void buildExcelWorkbook(Map<String, Object> model, Collection<?> data, Workbook workbook) {
 
-        // シートを作成する
+        // xシートを作成する
         Sheet sheet = workbook.createSheet("ユーザー");
         sheet.setDefaultColumnWidth(30);
 
-        // フォント
+        // xフォント
         Font font = workbook.createFont();
         font.setFontName("メイリオ");
         font.setBold(true);
         font.setColor(WHITE.getIndex());
 
-        // ヘッダーのスタイル
+        // xヘッダーのスタイル
         CellStyle style = workbook.createCellStyle();
         style.setFillForegroundColor(DARK_GREEN.getIndex());
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
@@ -44,7 +44,7 @@ public class UserExcel implements ExcelView.Callback {
         header.createCell(2).setCellValue("メールアドレス");
         header.getCell(2).setCellStyle(style);
 
-        // 明細
+        // x明細
         @SuppressWarnings("unchecked")
         val users = (List<User>) data;
 
