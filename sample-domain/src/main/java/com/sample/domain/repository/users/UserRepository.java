@@ -74,7 +74,13 @@ public class UserRepository extends BaseRepository {
      * @return
      */
     public User findById(final Long id) {
-        return userDao.selectById(id).orElseThrow(() -> new NoDataFoundException("user_id=" + id + " のデータが見つかりません。"));
+        val user = userDao.selectById(id);
+        user.ifPresent(u -> {
+            val uploadFileId = u.getUploadFileId();
+            val uploadFile = ofNullable(uploadFileId).map(uploadFileDao::selectById);
+            uploadFile.ifPresent(u::setUploadFile);
+        });
+        return user.orElseThrow(() -> new NoDataFoundException("user_id=" + id + " のデータが見つかりません。"));
     }
 
     /**
@@ -85,6 +91,13 @@ public class UserRepository extends BaseRepository {
      */
     public User create(final User inputUser) {
 
+        val uploadFile = inputUser.getUploadFile();
+        if (uploadFile != null) {
+            // 添付ファイルがある場合は、登録する
+            uploadFileDao.insert(uploadFile);
+
+            inputUser.setUploadFileId(uploadFile.getId());
+        }
         // 1件登録
         userDao.insert(inputUser);
 

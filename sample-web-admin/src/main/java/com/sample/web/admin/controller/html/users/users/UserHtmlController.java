@@ -79,10 +79,11 @@ public class UserHtmlController extends AbstractHtmlController {
      */
     @GetMapping("/new")
     public String newUser(@ModelAttribute("userForm") UserForm form, Model model) {
-        if (!form.isNew()) {
-            // SessionAttributeに残っている場合は再生成する
-            model.addAttribute("userForm", new UserForm());
-        }
+//        if (!form.isNew()) {
+//            // SessionAttributeに残っている場合は再生成する
+//            model.addAttribute("userForm", new UserForm());
+//        }
+        model.addAttribute("userForm", new UserForm());
 
         return "modules/users/users/new";
     }
@@ -111,6 +112,13 @@ public class UserHtmlController extends AbstractHtmlController {
 
         // xパスワードをハッシュ化する
         inputUser.setPassword(passwordEncoder.encode(password));
+        
+        val image = form.getUserImage();
+        if (image != null && !image.isEmpty()) {
+            val uploadFile = new UploadFile();
+            MultipartFileUtils.convert(image, uploadFile);
+            inputUser.setUploadFile(uploadFile);
+        }
 
         // x登録する
         val createdUser = userService.create(inputUser);
@@ -249,7 +257,10 @@ public class UserHtmlController extends AbstractHtmlController {
 
         val image = form.getUserImage();
         if (image != null && !image.isEmpty()) {
-            val uploadFile = new UploadFile();
+            UploadFile uploadFile = user.getUploadFile();
+            if (uploadFile == null || uploadFile.getId() == null) {
+                uploadFile = new UploadFile();
+            }
             MultipartFileUtils.convert(image, uploadFile);
             user.setUploadFile(uploadFile);
         }
