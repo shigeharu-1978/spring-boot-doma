@@ -254,6 +254,10 @@ public class UserHtmlController extends AbstractHtmlController {
          *  入力値を詰め替える
          */
         modelMapper.map(form, user);
+        val password = form.getPassword();
+
+        // xパスワードをハッシュ化する
+        user.setPassword(passwordEncoder.encode(password));
 
         val image = form.getUserImage();
         if (image != null && !image.isEmpty()) {
