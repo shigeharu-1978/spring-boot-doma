@@ -1,0 +1,84 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layouts/sidebarLayout}">
+    <head>
+        <title>担当者管理</title>
+    </head>
+    <body>
+        <div layout:fragment="sidebar">
+            <div th:replace="~{layouts/sidebar :: sidebar ('system', 'staff')}"></div>
+        </div>
+        <section layout:fragment="content-header">
+            <h1 th:with="text=${staffForm.isNew()} ? '担当者登録' : '担当者編集'" th:text="${text}">担当者登録</h1>
+            <ol class="breadcrumb">
+                <li><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/system/staffs/find(page=1)}">担当者検索</a></li>
+                <li th:with="text=${staffForm.isNew()} ? '担当者登録' : '担当者編集'" th:text="${text}">担当者登録</li>
+            </ol>
+        </section>
+        <section layout:fragment="content">
+            <div class="box">
+                <form th:object="${staffForm}" th:action="${action}" id="form1"
+                      th:with="action=${staffForm.isNew()} ? @{/system/staffs/new} : @{/system/staffs/edit/{id}(id=*{id})}"
+                      class="form-horizontal" enctype="multipart/form-data" method="post">
+                    <div class="box-body">
+                        <div th:with="valid=${!#fields.hasErrors('firstName')}" th:class="${'form-group' + (valid ? '' : ' has-error')}" class="form-group">
+                            <label class="col-sm-2 control-label" th:text="#{firstName}">Label</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" th:type="${'text'}" th:field="*{firstName}" />
+                                <span th:if="${!valid}" class="help-block" th:errors="*{firstName}">Error</span>
+                            </div>
+                        </div>
+                        <div th:with="valid=${!#fields.hasErrors('lastName')}" th:class="${'form-group' + (valid ? '' : ' has-error')}" class="form-group">
+                            <label class="col-sm-2 control-label" th:text="#{lastName}">Label</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" th:type="${'text'}" th:field="*{lastName}" />
+                                <span th:if="${!valid}" class="help-block" th:errors="*{lastName}">Error</span>
+                            </div>
+                        </div>
+                        <div th:with="valid=${!#fields.hasErrors('password')}" th:class="${'form-group' + (valid ? '' : ' has-error')}" class="form-group">
+                            <label class="col-sm-2 control-label" th:text="#{password}">Label</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" th:type="${'password'}" th:field="*{password}" />
+                                <span th:if="${!valid}" class="help-block" th:errors="*{password}">Error</span>
+                            </div>
+                        </div>
+                        <div th:with="valid=${!#fields.hasErrors('passwordConfirm')}" th:class="${'form-group' + (valid ? '' : ' has-error')}" class="form-group">
+                            <label class="col-sm-2 control-label" th:text="#{passwordConfirm}">Label</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" th:type="${'password'}" th:field="*{passwordConfirm}" />
+                                <span th:if="${!valid}" class="help-block" th:errors="*{passwordConfirm}">Error</span>
+                            </div>
+                        </div>
+                        <div th:with="valid=${!#fields.hasErrors('email')}" th:class="${'form-group' + (valid ? '' : ' has-error')}" class="form-group">
+                            <label class="col-sm-2 control-label" th:text="#{email}">Label</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" th:type="${'text'}" th:field="*{email}" />
+                                <span th:if="${!valid}" class="help-block" th:errors="*{email}">Error</span>
+                            </div>
+                        </div>
+                        <div th:with="valid=${!#fields.hasErrors('tel')}" th:class="${'form-group' + (valid ? '' : ' has-error')}" class="form-group">
+                            <label class="col-sm-2 control-label" th:text="#{tel}">Label</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" th:type="${'text'}" th:field="*{tel}" />
+                                <span th:if="${!valid}" class="help-block" th:errors="*{tel}">Error</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button class="btn btn-default bg-purple" type="submit"
+                                th:with="text=${staffForm.isNew()} ? '登録' : '保存'" th:text="${text}">
+                            Add Staff
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </body>
+    <div layout:fragment="scripts">
+        <script th:replace="~{fragments/validationScript :: script}" />
+        <script type="text/javascript" src="../public/static/js/system/staffs.js"
+                th:src="@{/static/js/system/staffs.js}"></script>
+    </div>
+</html>
