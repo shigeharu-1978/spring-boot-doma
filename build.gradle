@@ -43,15 +43,7 @@ subprojects {
 		compileTestGroovy
 	]*.options*.compilerArgs = ["-Xlint:all"]
 
-	sourceSets {
-		test.resources {
-			/*
-			 *  テスト時にsrc/main/resourcesにある設定ファイルを使用する
-			 */
-			srcDirs "src/main/resources"
-			srcDirs "src/test/resources"
-		}
-	}
+
 
 	repositories {
 		mavenCentral()
@@ -79,12 +71,7 @@ subprojects {
 		}
 	}
 
-	eclipse {
-		classpath {
-			containers.remove("org.eclipse.jdt.launching.JRE_CONTAINER")
-			containers "org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"
-		}
-	}
+
 
 	bootRun {
 		sourceResources sourceSets.main
